@@ -12,4 +12,7 @@ func init() {
 
 func main() {
 	initializers.DB.AutoMigrate(&models.Record{})
+	initializers.DB.AutoMigrate(&models.Producer{})
+	initializers.DB.AutoMigrate(&models.Consumer{})
+	initializers.DB.AutoMigrate(&models.Message{})
 }

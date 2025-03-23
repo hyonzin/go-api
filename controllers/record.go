@@ -46,7 +46,12 @@ func RecordsShow(c *gin.Context) {
 
 	// Get a sing record
 	var record models.Record
-	initializers.DB.First(&record, id)
+	result := initializers.DB.First(&record, id)
+
+	if result.Error != nil {
+		c.Status(400)
+		return
+	}
 
 	// Return record in response
 	c.JSON(200, gin.H{

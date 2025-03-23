@@ -17,5 +17,8 @@ func main() {
 	// Record Routes
 	routes.RecordRoutes(r)
 
+	// MQ Routes
+	routes.MessageQueueRoutes(r)
+
 	r.Run("0.0.0.0:30002")
 }
