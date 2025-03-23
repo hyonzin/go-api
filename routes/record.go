@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/hyonzin/go-api/controllers"
+	"github.com/hyonzin/go-message-queue-broker/controllers"
 )
 
 func RecordRoutes(r *gin.Engine) {

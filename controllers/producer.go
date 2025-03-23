@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/hyonzin/go-api/initializers"
-	"github.com/hyonzin/go-api/models"
+
+	"github.com/hyonzin/go-message-queue-broker/db"
+	"github.com/hyonzin/go-message-queue-broker/models"
 )
 
 func ProducersCreate(c *gin.Context) {
@@ -15,7 +16,7 @@ func ProducersCreate(c *gin.Context) {
 
 	// Create a producer
 	producer := models.Producer{Name: body.Name}
-	result := initializers.DB.Create(&producer)
+	result := db.DB.Create(&producer)
 
 	if result.Error != nil {
 		c.Status(400)
@@ -31,7 +32,7 @@ func ProducersCreate(c *gin.Context) {
 func ProducersIndex(c *gin.Context) {
 	// Get all the producers
 	var producers []models.Producer
-	initializers.DB.Find(&producers)
+	db.DB.Find(&producers)
 
 	// Return producers in response
 	c.JSON(200, gin.H{
@@ -45,7 +46,7 @@ func ProducersShow(c *gin.Context) {
 
 	// Get a sing producer
 	var producer models.Producer
-	initializers.DB.First(&producer, id)
+	db.DB.First(&producer, id)
 
 	// Return producer in response
 	c.JSON(200, gin.H{
@@ -65,10 +66,10 @@ func ProducersUpdate(c *gin.Context) {
 
 	// Get a single producer that we want to update
 	var producer models.Producer
-	initializers.DB.First(&producer, id)
+	db.DB.First(&producer, id)
 
 	// Update it
-	initializers.DB.Model(&producer).Updates(models.Producer{
+	db.DB.Model(&producer).Updates(models.Producer{
 		Name: body.Name,
 	})
 
@@ -83,7 +84,7 @@ func ProducersDelete(c *gin.Context) {
 	id := c.Param("id")
 
 	// Delete the Producer
-	initializers.DB.Delete(&models.Producer{}, id)
+	db.DB.Delete(&models.Producer{}, id)
 
 	// Return response
 	c.JSON(200, gin.H{

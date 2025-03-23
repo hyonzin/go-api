@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/hyonzin/go-api/initializers"
-	"github.com/hyonzin/go-api/models"
+
+	"github.com/hyonzin/go-message-queue-broker/db"
+	"github.com/hyonzin/go-message-queue-broker/models"
 )
 
 func ProduceMessage(c *gin.Context) {
@@ -16,7 +17,7 @@ func ProduceMessage(c *gin.Context) {
 
 	// Create a message
 	message := models.Message{Topic: body.Topic, Contents: body.Contents}
-	result := initializers.DB.Create(&message)
+	result := db.DB.Create(&message)
 
 	if result.Error != nil {
 		c.Status(400)
@@ -38,7 +39,7 @@ func ConsumeMessage(c *gin.Context) {
 
 	// Get a sing consumer
 	var message models.Message
-	result := initializers.DB.First(&message, body)
+	result := db.DB.First(&message, body)
 
 	if result.Error != nil {
 		c.JSON(200, gin.H{
@@ -50,7 +51,7 @@ func ConsumeMessage(c *gin.Context) {
 	}
 
 	// Delete the Consumer
-	initializers.DB.Delete(&models.Message{}, message)
+	db.DB.Delete(&models.Message{}, message)
 
 	// Return consumer in response
 	c.JSON(200, gin.H{

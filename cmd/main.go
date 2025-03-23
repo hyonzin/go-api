@@ -2,13 +2,14 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/hyonzin/go-api/initializers"
-	"github.com/hyonzin/go-api/routes"
+	"github.com/hyonzin/go-message-queue-broker/db"
+	"github.com/hyonzin/go-message-queue-broker/initializers"
+	"github.com/hyonzin/go-message-queue-broker/routes"
 )
 
 func init() {
 	initializers.LoadEnvVariables()
-	initializers.ConnectDB()
+	db.ConnectDB()
 }
 
 func main() {

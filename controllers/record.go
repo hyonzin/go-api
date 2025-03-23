@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/hyonzin/go-api/initializers"
-	"github.com/hyonzin/go-api/models"
+
+	"github.com/hyonzin/go-message-queue-broker/db"
+	"github.com/hyonzin/go-message-queue-broker/models"
 )
 
 func RecordsCreate(c *gin.Context) {
@@ -16,7 +17,7 @@ func RecordsCreate(c *gin.Context) {
 
 	// Create a record
 	record := models.Record{Title: body.Title, Content: body.Content}
-	result := initializers.DB.Create(&record)
+	result := db.DB.Create(&record)
 
 	if result.Error != nil {
 		c.Status(400)
@@ -32,7 +33,7 @@ func RecordsCreate(c *gin.Context) {
 func RecordsIndex(c *gin.Context) {
 	// Get all the records
 	var records []models.Record
-	initializers.DB.Find(&records)
+	db.DB.Find(&records)
 
 	// Return records in response
 	c.JSON(200, gin.H{
@@ -46,7 +47,7 @@ func RecordsShow(c *gin.Context) {
 
 	// Get a sing record
 	var record models.Record
-	result := initializers.DB.First(&record, id)
+	result := db.DB.First(&record, id)
 
 	if result.Error != nil {
 		c.Status(400)
@@ -72,10 +73,10 @@ func RecordsUpdate(c *gin.Context) {
 
 	// Get a single record that we want to update
 	var record models.Record
-	initializers.DB.First(&record, id)
+	db.DB.First(&record, id)
 
 	// Update it
-	initializers.DB.Model(&record).Updates(models.Record{
+	db.DB.Model(&record).Updates(models.Record{
 		Title:   body.Title,
 		Content: body.Content,
 	})
@@ -91,7 +92,7 @@ func RecordsDelete(c *gin.Context) {
 	id := c.Param("id")
 
 	// Delete the Record
-	initializers.DB.Delete(&models.Record{}, id)
+	db.DB.Delete(&models.Record{}, id)
 
 	// Return response
 	c.JSON(200, gin.H{

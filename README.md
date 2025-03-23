@@ -1,1 +1,1 @@
-go rest api server with gin
+go message queue broker

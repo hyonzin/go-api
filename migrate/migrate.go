@@ -1,18 +1,19 @@
 package main
 
 import (
-	"github.com/hyonzin/go-api/initializers"
-	"github.com/hyonzin/go-api/models"
+	"github.com/hyonzin/go-message-queue-broker/db"
+	"github.com/hyonzin/go-message-queue-broker/initializers"
+	"github.com/hyonzin/go-message-queue-broker/models"
 )
 
 func init() {
 	initializers.LoadEnvVariables()
-	initializers.ConnectDB()
+	db.ConnectDB()
 }
 
 func main() {
-	initializers.DB.AutoMigrate(&models.Record{})
-	initializers.DB.AutoMigrate(&models.Producer{})
-	initializers.DB.AutoMigrate(&models.Consumer{})
-	initializers.DB.AutoMigrate(&models.Message{})
+	db.DB.AutoMigrate(&models.Record{})
+	db.DB.AutoMigrate(&models.Producer{})
+	db.DB.AutoMigrate(&models.Consumer{})
+	db.DB.AutoMigrate(&models.Message{})
 }
